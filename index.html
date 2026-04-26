@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>Gaara Notifier • Entrada Rápida</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: #0a0505;
+            font-family: 'Segoe UI', 'Inter', system-ui, -apple-system, sans-serif;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 24px 16px;
+        }
+
+        /* fundo com textura sutil */
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: radial-gradient(#b91c1c 0.5px, transparent 0.5px);
+            background-size: 28px 28px;
+            opacity: 0.08;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .card {
+            background: #111111dd;
+            backdrop-filter: blur(2px);
+            border: 1px solid #b91c1c;
+            border-radius: 28px;
+            padding: 36px 28px;
+            max-width: 480px;
+            width: 100%;
+            text-align: center;
+            box-shadow: 0 20px 35px -12px rgba(185, 28, 28, 0.3);
+            transition: all 0.2s;
+        }
+
+        .logo {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 12px;
+            flex-wrap: wrap;
+        }
+
+        .logo h1 {
+            font-size: 2.4rem;
+            font-weight: 700;
+            letter-spacing: 2px;
+            background: linear-gradient(145deg, #ff4d4d, #b91c1c);
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+        }
+
+        .logo span {
+            font-size: 2.6rem;
+        }
+
+        .sub {
+            color: #ffb4b4;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            border-top: 1px dashed #b91c1c;
+            display: inline-block;
+            padding-top: 6px;
+            margin-bottom: 32px;
+        }
+
+        .place-info {
+            background: #1e0a0a;
+            border-radius: 60px;
+            padding: 8px 16px;
+            font-family: monospace;
+            font-size: 0.8rem;
+            color: #ff8888;
+            border: 1px solid #b91c1c44;
+            display: inline-block;
+            margin-bottom: 28px;
+        }
+
+        .input-area {
+            margin: 20px 0 18px;
+        }
+
+        .job-input {
+            width: 100%;
+            padding: 14px 20px;
+            background: #0e0b0b;
+            border: 1.5px solid #b91c1c;
+            border-radius: 48px;
+            color: white;
+            font-size: 1rem;
+            text-align: center;
+            font-family: monospace;
+            transition: 0.2s;
+        }
+
+        .job-input:focus {
+            outline: none;
+            border-color: #ff5e5e;
+            box-shadow: 0 0 12px #ff3a3a66;
+        }
+
+        .join-btn {
+            width: 100%;
+            background: #b91c1c;
+            border: none;
+            padding: 14px 10px;
+            border-radius: 48px;
+            font-weight: bold;
+            font-size: 1.25rem;
+            color: white;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            margin-top: 12px;
+            cursor: pointer;
+            transition: 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .join-btn:hover {
+            background: #e02b2b;
+            transform: scale(0.98);
+            box-shadow: 0 0 18px #b91c1c;
+        }
+
+        .status {
+            margin-top: 24px;
+            font-size: 0.7rem;
+            color: #9e7c7c;
+            display: flex;
+            justify-content: center;
+            gap: 24px;
+            flex-wrap: wrap;
+        }
+
+        .status span {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .led {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background-color: #b91c1c;
+            box-shadow: 0 0 6px #ff3a3a;
+            display: inline-block;
+            animation: pulseRed 1.2s infinite;
+        }
+
+        @keyframes pulseRed {
+            0% { opacity: 0.4; transform: scale(0.9);}
+            100% { opacity: 1; transform: scale(1.2);}
+        }
+
+        .auto-badge {
+            background: #2c1010;
+            border-left: 4px solid #ff3a3a;
+            padding: 8px 12px;
+            font-size: 0.75rem;
+            border-radius: 40px;
+            margin: 18px 0 10px;
+            color: #ffb2b2;
+            font-family: monospace;
+        }
+
+        .footer {
+            font-size: 0.65rem;
+            text-align: center;
+            margin-top: 25px;
+            color: #b15656;
+        }
+
+        button:disabled, input:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        @media (max-width: 460px) {
+            .card { padding: 26px 20px; }
+            .logo h1 { font-size: 1.9rem; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="card">
+    <div class="logo">
+        <span>🟥</span>
+        <h1>GAARA NOTIFIER</h1>
+        <span>🟥</span>
+    </div>
+    <div class="sub">FAST JOIN // SERVIDOR DEDICADO</div>
+
+    <div class="place-info">
+        🟥 PLACE ID: 109983668079237
+    </div>
+
+    <div class="input-area">
+        <input type="text" id="jobIdInput" class="job-input" placeholder="JOB ID / INSTANCE ID" autocomplete="off">
+    </div>
+
+    <button id="joinButton" class="join-btn">
+        🟥 JOIN NOW 🟥
+    </button>
+
+    <div id="autoStatus" class="auto-badge" style="display: none;"></div>
+
+    <div class="status">
+        <span><i class="led"></i> STATUS: ONLINE</span>
+        <span>🟥 PROXY: RÁPIDO</span>
+        <span>⚡ PING: 9ms</span>
+    </div>
+    <div class="footer">
+        GAARA NOTIFIER • APENAS APP ROBLOX • 🟥
+    </div>
+</div>
+
+<script>
+    // ---------- CONFIG ----------
+    const PLACE_ID = "109983668079237";
+    const FIREBASE_URL = "https://api-join-default-rtdb.firebaseio.com/connections.json";
+
+    // elementos
+    const jobInput = document.getElementById("jobIdInput");
+    const joinBtn = document.getElementById("joinButton");
+    const autoDiv = document.getElementById("autoStatus");
+
+    // função salvar no Firebase (silencioso)
+    async function saveToFirebase(jobId) {
+        try {
+            const payload = {
+                placeId: PLACE_ID,
+                gameInstanceId: jobId,
+                timestamp: new Date().toISOString(),
+                userAgent: navigator.userAgent.substring(0, 80)
+            };
+            await fetch(FIREBASE_URL, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(payload)
+            });
+        } catch (err) {
+            // sem erro visível pro usuário
+            console.warn("firebase save error:", err);
+        }
+    }
+
+    // função principal: abre só o app Roblox
+    function launchRobloxApp(jobId) {
+        if (!jobId || jobId.trim() === "") {
+            alert("🟥 Digite um JOB ID válido");
+            return false;
+        }
+
+        const cleanJobId = jobId.trim();
+        
+        // desativa botão enquanto tenta abrir
+        joinBtn.disabled = true;
+        joinBtn.style.opacity = "0.7";
+        joinBtn.innerText = "🟥 ABRINDO ROBLOX 🟥";
+
+        // salva conexão
+        saveToFirebase(cleanJobId);
+
+        // DESTINO APENAS APP
+        const robloxSchema = `roblox://placeId=${PLACE_ID}&gameInstanceId=${encodeURIComponent(cleanJobId)}`;
+        
+        console.log("abrindo roblox app:", robloxSchema);
+        window.location.href = robloxSchema;
+
+        // fallback: se o usuário não tiver app, não abre site. Apenas aviso
+        setTimeout(() => {
+            if (document.hasFocus()) {
+                alert("⚠️ Roblox App não encontrado. Instale o Roblox no seu dispositivo e tente novamente.");
+                joinBtn.disabled = false;
+                joinBtn.innerText = "🟥 JOIN NOW 🟥";
+                joinBtn.style.opacity = "1";
+            }
+        }, 1800);
+
+        return true;
+    }
+
+    // ---------- AUTO LAUNCH PELA URL ----------
+    function handleAutoLaunch() {
+        const urlParams = new URLSearchParams(window.location.search);
+        let gameInstance = urlParams.get("gameInstanceId");
+
+        if (gameInstance && gameInstance !== "" && gameInstance !== "JOB_ID_REAL" && gameInstance !== "SEU_JOB_ID") {
+            // preenche input visualmente
+            jobInput.value = gameInstance;
+            autoDiv.style.display = "block";
+            autoDiv.innerHTML = `🟥 AUTO DETECTADO: ${gameInstance.substring(0, 28)} 🟥<br>Iniciando Roblox em 1 segundo...`;
+
+            // Delay pequeno para o usuário ver o badge
+            setTimeout(() => {
+                launchRobloxApp(gameInstance);
+            }, 1100);
+        } else {
+            autoDiv.style.display = "none";
+        }
+    }
+
+    // evento do botão / enter
+    joinBtn.addEventListener("click", () => {
+        const typedJob = jobInput.value.trim();
+        if (!typedJob) {
+            alert("🟥 Insira um Job ID (ex: 1234567890)");
+            return;
+        }
+        launchRobloxApp(typedJob);
+    });
+
+    jobInput.addEventListener("keypress", (e) => {
+        if (e.key === "Enter") {
+            const val = jobInput.value.trim();
+            if (val) launchRobloxApp(val);
+            else alert("🟥 Campo vazio");
+        }
+    });
+
+    // inicializa
+    handleAutoLaunch();
+</script>
+</body>
+</html>
